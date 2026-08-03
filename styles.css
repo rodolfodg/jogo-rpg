@@ -1,0 +1,164 @@
+body {
+  background-color: #1a1a24;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.arena-container {
+  width: 800px;
+  background: #2b2b3d;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+.palco-batalha {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 250px;
+  padding: 20px 60px;
+  background: #15151e;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.slot-personagem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.sprite-personagem img {
+  width: 100px;
+  height: auto;
+  display: block;
+}
+
+.container-barra-hp {
+  width: 120px;
+  height: 14px;
+  background: #444;
+  border-radius: 7px;
+  overflow: hidden;
+  border: 1px solid #666;
+  margin-top: 5px;
+}
+
+.barra-hp-preenchimento {
+  height: 100%;
+  background-color: #27ae60;
+  transition: width 0.6s ease-in-out;
+}
+
+.painel-controle {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.btn-acao, .btn-reiniciar {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  margin: 0 8px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-reiniciar { background: #27ae60; }
+.btn-acao:hover:not(:disabled) { background: #c0392b; }
+.btn-reiniciar:hover { background: #219150; }
+.btn-acao:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ===================================================
+   ANIMAÇÕES E CHOQUE
+   =================================================== */
+
+/* Projétil / Tiro de Energia */
+.projetil-tiro {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #00d2ff;
+  box-shadow: 0 0 15px #00d2ff, 0 0 30px #00d2ff;
+  border-radius: 50%;
+  z-index: 20;
+  animation: voarProjetil 0.4s linear forwards;
+}
+
+@keyframes voarProjetil {
+  0% { left: 160px; bottom: 80px; opacity: 1; transform: scale(1); }
+  100% { left: 600px; bottom: 80px; opacity: 1; transform: scale(1.4); }
+}
+
+/* ⚔️ CHOQUE DE IMPACTO (Ambos correm até o centro) */
+.anim-chocando-cavaleiro {
+  transform: translateX(230px) scale(1.1);
+  transition: transform 0.3s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+
+.anim-chocando-guarda {
+  transform: translateX(-230px) scale(1.1);
+  transition: transform 0.3s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+
+/* Retorno */
+.anim-retornar {
+  transform: translateX(0);
+  transition: transform 0.4s ease-out;
+}
+
+/* Reações e Danos */
+.anim-efeito-impacto {
+  filter: brightness(2.5) drop-shadow(0 0 12px red);
+}
+
+.anim-tremor {
+  animation: tremor 0.3s ease-in-out infinite;
+}
+
+@keyframes tremor {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-8px, 4px); }
+  50% { transform: translate(8px, -4px); }
+  75% { transform: translate(-4px, -6px); }
+  100% { transform: translate(0, 0); }
+}
+
+.texto-dano {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  color: #ff3838;
+  font-weight: bold;
+  font-size: 28px;
+  text-shadow: 2px 2px 0 #000;
+  animation: subirEFade 0.8s forwards;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes subirEFade {
+  0% { opacity: 1; transform: translate(-50%, 0) scale(0.8); }
+  50% { opacity: 1; transform: translate(-50%, -25px) scale(1.2); }
+  100% { opacity: 0; transform: translate(-50%, -50px) scale(1); }
+}
+
+.anim-morte {
+  animation: desaparecerMorte 1s forwards ease-in-out;
+}
+
+@keyframes desaparecerMorte {
+  0% { opacity: 1; transform: scale(1) rotate(0deg); }
+  100% { opacity: 0; transform: scale(0.3) translateY(60px) rotate(45deg); }
+}

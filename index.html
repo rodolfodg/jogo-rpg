@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JOGO RGB - Batalha </title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <main class="arena-container">
+    <h1 class="titulo-jogo">JOGO RGB - Sistema de Batalha</h1>
+
+    <!-- Palco de Batalha -->
+    <div class="palco-batalha" id="palco">
+      
+      <!-- Lado do Cavaleiro (Jogador) -->
+      <div class="slot-personagem" id="slot-cavaleiro">
+        <div class="hud-personagem">
+          <span class="nome-personagem">Cavaleiro</span>
+          <div class="container-barra-hp">
+            <div id="hp-cavaleiro" class="barra-hp-preenchimento" style="width: 100%;"></div>
+          </div>
+        </div>
+        <div id="sprite-cavaleiro" class="sprite-personagem">
+          <img src="cavaleiro.png" alt="Cavaleiro">
+        </div>
+      </div>
+
+      <!-- Lado do Guarda (Inimigo) -->
+      <div class="slot-personagem" id="slot-guarda">
+        <div class="hud-personagem">
+          <span class="nome-personagem">Guarda</span>
+          <div class="container-barra-hp">
+            <div id="hp-guarda" class="barra-hp-preenchimento" style="width: 100%;"></div>
+          </div>
+        </div>
+        <div id="sprite-guarda" class="sprite-personagem">
+          <img src="guarda.png" alt="Guarda">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Painel de Ações -->
+    <footer class="painel-controle">
+      <p id="mensagem-status" class="instrucao">Escolha uma habilidade para atacar:</p>
+      <div class="botoes-habilidade">
+        <button class="btn-acao" onclick="iniciarAtaque('Golpe Físico')">⚔️ Golpe </button>
+        <button class="btn-acao" onclick="iniciarAtaque('Tiro de Energia')">⚡ Magia</button>
+      </div>
+      <button id="btn-reiniciar" class="btn-reiniciar" onclick="reiniciarJogo()" style="display: none;">🔄 Jogar Novamente</button>
+    </footer>
+  </main>
+
+  <script src="rpg.js"></script>
+  
+  <script>
+    let cavaleiroObj, guardaObj;
+
+    function inicializarEntidades() {
+      cavaleiroObj = {
+        nome: "Cavaleiro",
+        hp: 100,
+        hpMax: 100,
+        ataqueBase: 25,
+        elementoSprite: document.getElementById('sprite-cavaleiro'),
+        calcularDano: function(hab) {
+          return hab === 'Tiro de Energia' ? this.ataqueBase * 1.5 : this.ataqueBase * 1.2;
+        },
+        receberDano: function(dano) {
+          this.hp = Math.max(0, this.hp - dano);
+          return this.hp <= 0;
+        }
+      };
+
+      guardaObj = {
+        nome: "Guarda",
+        hp: 100,
+        hpMax: 100,
+        ataqueBase: 20,
+        elementoSprite: document.getElementById('sprite-guarda'),
+        calcularDano: function() {
+          return this.ataqueBase;
+        },
+        receberDano: function(dano) {
+          this.hp = Math.max(0, this.hp - dano);
+          return this.hp <= 0;
+        }
+      };
+    }
+
+    inicializarEntidades();
+
+    function iniciarAtaque(habilidade) {
+      document.querySelectorAll('.btn-acao').forEach(btn => btn.disabled = true);
+
+      executarTurnoCompleto(cavaleiroObj, guardaObj, habilidade).then((resultado) => {
+        if (resultado.fimDeJogo) {
+          document.querySelector('.botoes-habilidade').style.display = 'none';
+          document.getElementById('btn-reiniciar').style.display = 'inline-block';
+          document.getElementById('mensagem-status').innerText = resultado.mensagem;
+        } else {
+          document.querySelectorAll('.btn-acao').forEach(btn => btn.disabled = false);
+          document.getElementById('mensagem-status').innerText = "Sua vez! Escolha uma habilidade:";
+        }
+      });
+    }
+
+    function reiniciarJogo() {
+      inicializarEntidades();
+      atualizarBarraHP('hp-cavaleiro', 100, 100);
+      atualizarBarraHP('hp-guarda', 100, 100);
+
+      [cavaleiroObj, guardaObj].forEach(obj => {
+        obj.elementoSprite.classList.remove('anim-morte', 'anim-chocando-cavaleiro', 'anim-chocando-guarda', 'anim-retornar');
+        obj.elementoSprite.style.opacity = '1';
+        obj.elementoSprite.style.transform = 'none';
+      });
+
+      document.querySelector('.botoes-habilidade').style.display = 'block';
+      document.querySelectorAll('.btn-acao').forEach(btn => btn.disabled = false);
+      document.getElementById('btn-reiniciar').style.display = 'none';
+      document.getElementById('mensagem-status').innerText = "Escolha uma habilidade para atacar:";
+    }
+  </script>
+
+</body>
+</html>
