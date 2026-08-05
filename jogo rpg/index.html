@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Combate Visual - Jogo RPG</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="arena-container">
+    <h2>JOGO RPG</h2>
+    
+    <div class="palco-batalha" id="palco">
+      
+      <!-- Cavaleiro (Jogador) -->
+      <div class="sprite-personagem" id="cavaleiro">
+        <div class="nome-personagem">Cavaleiro <span class="nivel-texto" id="nv-cav">(Nv. 1)</span></div>
+        <div class="status-texto">HP: <span id="hp-txt-cav">100/100</span> | MP: <span id="mp-txt-cav">50/50</span></div>
+        <div class="container-barra-hp"><div id="hp-cav" class="barra-hp-preenchimento"></div></div>
+        <img src="cavaleiro.png" alt="Cavaleiro" class="img-personagem">
+        <div class="espada espada-cav" id="esp-cav"></div>
+      </div>
+
+      <!-- Guarda (Inimigo) -->
+      <div class="sprite-personagem" id="guarda">
+        <div class="nome-personagem">Guarda <span class="nivel-texto" id="nv-gua">(Nv. 1)</span></div>
+        <div class="status-texto">HP: <span id="hp-txt-gua">80/80</span></div>
+        <div class="container-barra-hp"><div id="hp-gua" class="barra-hp-preenchimento hp-inimigo"></div></div>
+        <img src="guarda.png" alt="Guarda" class="img-personagem">
+        <div class="espada espada-gua" id="esp-gua"></div>
+      </div>
+
+    </div>
+
+    <footer class="painel-controle">
+      <p id="mensagem-status">Sua vez! Escolha sua ação.</p>
+      
+      <!-- Novo Menu de Turnos -->
+      <div id="botoes-acao" class="grid-botoes">
+        <button class="btn-acao btn-atacar" id="btn-atacar" onclick="acaoJogador('atacar')">⚔ Atacar</button>
+        <button class="btn-acao btn-defender" id="btn-defender" onclick="acaoJogador('defender')">🛡 Defender</button>
+        <button class="btn-acao btn-magia" id="btn-magia" onclick="acaoJogador('magia')">✨ Magia (20 MP)</button>
+        <button class="btn-acao btn-pocao" id="btn-pocao" onclick="acaoJogador('pocao')">🧪 Poção (<span id="qtd-pocao">3</span>)</button>
+      </div>
+
+      <button class="btn-acao btn-reiniciar" id="btn-reiniciar" onclick="reiniciar()">Reiniciar Batalha</button>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

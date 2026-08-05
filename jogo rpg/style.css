@@ -1,0 +1,156 @@
+/* ===================================================
+   CSS - ESTILOS BASEADOS NA IMAGEM "Capturar.JPG" E EXPANDIDOS
+   =================================================== */
+body {
+  background-color: #171721;
+  color: #fff; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex; justify-content: center; align-items: center;
+  min-height: 100vh; margin: 0; overflow: hidden;
+}
+
+.arena-container {
+  width: 550px; 
+  background: #252636;
+  padding: 25px;
+  border-radius: 8px; 
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+h2 {
+  text-align: center; 
+  margin-top: 0; 
+  font-size: 20px;
+  margin-bottom: 25px;
+}
+
+.palco-batalha {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  height: 220px; padding: 20px 40px; 
+  background: #191924;
+  border-radius: 8px; position: relative;
+}
+
+.sprite-personagem { 
+  position: relative; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+}
+
+.nome-personagem {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.nivel-texto {
+  color: #f1c40f;
+  font-size: 12px;
+}
+
+.status-texto {
+  font-size: 11px;
+  color: #bdc3c7;
+  margin-bottom: 5px;
+}
+
+.container-barra-hp {
+  width: 100px; height: 12px; background: #444; border-radius: 6px;
+  border: 1px solid #222; margin-bottom: 15px; overflow: hidden;
+}
+.barra-hp-preenchimento { 
+  height: 100%; background-color: #2ecc71;
+  transition: width 0.4s ease-in-out; 
+}
+.hp-inimigo {
+  background-color: #e74c3c;
+}
+
+.img-personagem {
+  width: 130px; 
+  height: 130px;
+  object-fit: contain;
+  z-index: 2;
+}
+
+/* ESPADAS */
+.espada {
+  position: absolute; width: 6px; height: 70px;
+  background: linear-gradient(to top, #8b4513 15%, #dcdde1 15%, #f5f6fa 90%, #7f8fa6 100%);
+  border-radius: 4px 4px 0 0; bottom: 10px;
+  transform-origin: bottom center; z-index: 3;
+  box-shadow: 0 0 5px rgba(255,255,255,0.4);
+}
+.espada-cav { right: 0px; transform: rotate(20deg); }
+.espada-gua { left: 0px; transform: rotate(-20deg); }
+
+/* ANIMAÇÕES (Mantidas do original) */
+.anim-golpe-cav { animation: swingCavaleiro 0.3s forwards ease-in-out; }
+.anim-golpe-gua { animation: swingGuarda 0.3s forwards ease-in-out; }
+@keyframes swingCavaleiro { 0% { transform: rotate(20deg); } 30% { transform: rotate(-40deg); } 100% { transform: rotate(80deg); } }
+@keyframes swingGuarda { 0% { transform: rotate(-20deg); } 30% { transform: rotate(40deg); } 100% { transform: rotate(-80deg); } }
+
+.anim-dash-cav { animation: dashCav 0.4s forwards ease-in-out; }
+.anim-dash-gua { animation: dashGua 0.4s forwards ease-in-out; }
+.anim-retornar { transform: translateX(0); transition: transform 0.4s ease-out; }
+@keyframes dashCav { 0% { transform: translateX(0); } 100% { transform: translateX(120px); } }
+@keyframes dashGua { 0% { transform: translateX(0); } 100% { transform: translateX(-120px); } }
+
+.anim-dano { animation: tremor 0.3s forwards; }
+@keyframes tremor {
+  0%, 100% { transform: translate(0, 0); filter: brightness(1); }
+  25% { transform: translate(-10px, 5px) rotate(-5deg); filter: brightness(2) drop-shadow(0 0 10px red); }
+  75% { transform: translate(10px, -5px) rotate(5deg); }
+}
+
+.texto-dano {
+  position: absolute; top: -10px; left: 50%;
+  color: #ff3838; font-weight: bold; font-size: 24px; text-shadow: 1px 1px 0 #000;
+  animation: subirFade 0.8s forwards; z-index: 20; pointer-events: none;
+}
+.texto-cura {
+  color: #2ecc71;
+}
+@keyframes subirFade {
+  0% { opacity: 0; transform: translate(-50%, 10px) scale(0.5); }
+  20% { opacity: 1; transform: translate(-50%, -30px) scale(1.5); }
+  100% { opacity: 0; transform: translate(-50%, -60px) scale(1); }
+}
+
+.anim-morte { animation: morrer 1s forwards; }
+@keyframes morrer {
+  100% { opacity: 0; transform: translateY(30px) rotate(90deg); filter: grayscale(1); }
+}
+
+/* CONTROLES E BOTÕES */
+.painel-controle { text-align: center; margin-top: 20px; }
+#mensagem-status { font-size: 14px; margin-bottom: 15px; min-height: 20px; }
+
+.grid-botoes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.btn-acao {
+  color: white; border: none; padding: 10px 15px;
+  font-size: 14px; border-radius: 4px; cursor: pointer; font-weight: bold;
+  transition: filter 0.2s, transform 0.1s;
+}
+.btn-acao:hover:not(:disabled) { filter: brightness(1.2); }
+.btn-acao:active:not(:disabled) { transform: scale(0.98); }
+.btn-acao:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(0.8); }
+
+/* Cores dos botões de ação */
+.btn-atacar { background: #e74c3c; }
+.btn-defender { background: #3498db; }
+.btn-magia { background: #9b59b6; }
+.btn-pocao { background: #2ecc71; }
+
+.btn-reiniciar {
+  background: #f39c12;
+  display: none; 
+  width: 100%;
+  margin-top: 10px;
+}
